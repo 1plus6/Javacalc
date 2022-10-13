@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--ThymeleafをHTMLファイルで使用する為-->
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p>エラー:数字を入力してください</p>
+	<p></p>
+	<!-- 計算結果表示欄 -->
+	<b th:text="${kotae}"></b>
+	<!--<b th:text="${kotae}"></b> <!--kotaeという変数を定義-->
+	<form method="POST" action="calc" >
+	<!-- <button>送信</button> -->
+	<button formaction="calc" >入力ページへ移動</button> <!-- ボタンだと動かないからそれを修正 -->
+	</form>
+</body>
+</html>
