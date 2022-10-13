@@ -5,23 +5,36 @@ import java.math.RoundingMode;
 
 import org.springframework.stereotype.Component;
 
-@Component //webのmvcアプリを作成するときに、DIコンテナに管理させて、DIできるようにしたいクラスにつける
+@Component 
+/*
+ * webのmvcアプリを作成するときに、
+ * DIコンテナに管理させて、DIできるようにしたいクラスにつける
+ *  service = 実行者
+ */
 public class CalcService {
 
 	public String calculateAdd(
 			String NumA,
 			String NumB
-
 	)
 
-	{
-		BigDecimal AdA = new BigDecimal(NumA);
-		BigDecimal AdB = new BigDecimal(NumB);
-		BigDecimal AdR = AdA.add(AdB);
-		String AdResult = AdR.toString();
-		return AdResult;
+	{	
+			String AdResult = null;
+			BigDecimal AdA = null;
+			BigDecimal AdB = null;
+		try {
+			AdA = new BigDecimal(NumA);
+			AdB = new BigDecimal(NumB);
+			BigDecimal AdR = AdA.add(AdB);
+			AdResult = AdR.toString();
 
-	}
+		} catch (Exception e) {
+			AdResult = "Aderror";//エラーの場合はこれをキャッチ
+
+		}
+		return AdResult;
+		}
+
 /*
  * 引き算
  */
@@ -33,11 +46,18 @@ public class CalcService {
 		)
 
 		{
-			BigDecimal SubC = new BigDecimal(NumC);
-			BigDecimal SubD = new BigDecimal(NumD);
-			BigDecimal SubR = SubC.subtract(SubD);
-			String SubResult = SubR.toString();
-			return SubResult;
+			String SubResult = null;
+			BigDecimal SubC = null;
+			BigDecimal SubD = null;
+			try {
+				SubC = new BigDecimal(NumC);
+				SubD = new BigDecimal(NumD);
+				BigDecimal SubR = SubC.subtract(SubD);
+				SubResult = SubR.toString();
+			} catch (Exception e) {
+				SubResult = "Suerror";//エラーの場合はこれをキャッチ
+			}
+			  return SubResult;
 
 		}
 /*
@@ -46,15 +66,21 @@ public class CalcService {
 		public String calculateMultiply(
 				String NumE,
 				String NumF
-
 		)
 
 		{
-			BigDecimal MulE = new BigDecimal(NumE);
-			BigDecimal MulF = new BigDecimal(NumF);
-			BigDecimal MulR = MulE.multiply(MulF);
-			String SubResult = MulR.toString();
-			return SubResult;
+			String MulResult = null;
+			BigDecimal MulE = null;
+			BigDecimal MulF = null;
+			try {
+				MulE = new BigDecimal(NumE);
+				MulF = new BigDecimal(NumF);
+				BigDecimal MulR = MulE.multiply(MulF);
+				MulResult = MulR.toString();
+			} catch (Exception e) {
+				MulResult = "Muerror" ;
+			}
+			return MulResult;
 
 		}
 
@@ -64,19 +90,23 @@ public class CalcService {
 		public String calculateDivide(
 				String NumG,
 				String NumH
-
 		)
 
 		{
-			BigDecimal DiG = new BigDecimal(NumG);
-			BigDecimal DiH = new BigDecimal(NumH);
+			String DivResult = null;
+			BigDecimal DiG = null;
+			BigDecimal DiH = null;
 			try {
-				BigDecimal DiR = DiG.divide(DiH,10,RoundingMode.HALF_UP);
-			    String SubResult = DiR.toString();
-			    return SubResult;
+				DiG = new BigDecimal(NumG);
+				DiH = new BigDecimal(NumH);
+				BigDecimal DiR = DiG.divide(DiH,7,RoundingMode.HALF_UP);
+				DivResult = DiR.toString();
 			} catch (Exception e) {
-				return "無限小数の答えになりました";
+				DivResult = "Dierror" ;
+				System.out.println( e );
+			
 			}
+			  return DivResult ;
 }
 		//		割り算に関しては特殊なので注意
 	//		
