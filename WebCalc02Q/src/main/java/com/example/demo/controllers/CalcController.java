@@ -8,26 +8,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.services.CalcService;
 
-@Controller
+@Controller //司令塔
 public class CalcController {
 
 	@Autowired
 	private CalcService service;
 
-	@PostMapping("resAdd") //ルーティング
+	
+	@PostMapping("calc") //htmlのpostにつながってる
+	public String calc() {
+		return "calc";
+
+	}
+
+		
+	
+	@PostMapping("resAdd") //htmlのpostにつながってる
 	public String resAdd(
 			Model model,
 			@RequestParam("numA") String NumA,
 			@RequestParam("numB") String NumB
 
 	) {
-
-		model.addAttribute("kotae", service.calculateAdd(NumA, NumB));
-
+		String AdResult = service.calculateAdd(NumA, NumB);
+		if( AdResult == "Aderror") { //計算結果がエラーならエラー画面へ飛ぶ
+			return "error";
+		}
+		model.addAttribute("kotae", AdResult );//大事
+		
+		
 		return "res";
 
 	}
 
+	/*
+	 * 引き算
+	 */
+	
 	@PostMapping("resSubtract") //ルーティング
 	public String resSubtract(
 			Model model,
@@ -35,8 +52,11 @@ public class CalcController {
 			@RequestParam("numD") String NumD
 
 	) {
-
-		model.addAttribute("kotae", service.calculateSubtract(NumC, NumD));
+		String SubResult = service.calculateSubtract(NumC, NumD);
+		if( SubResult == "Suerror") { //計算結果がエラーならエラー画面へ飛ぶ
+			return "error";
+		}
+		model.addAttribute("kotae", SubResult );
 
 		return "res";
 
@@ -53,8 +73,11 @@ public class CalcController {
 			@RequestParam("numF") String NumF
 
 	) {
-
-		model.addAttribute("kotae", service.calculateMultiply(NumE, NumF));
+		String MulResult = service.calculateMultiply(NumE, NumF);
+		if( MulResult == "Muerror") { //計算結果がエラーならエラー画面へ飛ぶ
+			return "error";
+		}
+		model.addAttribute("kotae", MulResult);
 
 		return "res";
 
@@ -69,8 +92,11 @@ public class CalcController {
 			@RequestParam("numH") String NumH
 
 	) {
-
-		model.addAttribute("kotae", service.calculateDivide(NumG, NumH));
+		String DivResult = service.calculateDivide(NumG, NumH);
+		if( DivResult == "Dierror") { //計算結果がエラーならエラー画面へ飛ぶ
+			return "error";
+		}
+		model.addAttribute("kotae", DivResult);
 
 		return "res";
 
