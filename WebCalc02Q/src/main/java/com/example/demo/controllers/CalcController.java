@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.repositories.calcresult_Repository;
 import com.example.demo.services.CalcService;
 
 @Controller //司令塔
@@ -14,6 +15,8 @@ public class CalcController {
 	@Autowired
 	private CalcService service;
 
+	@Autowired
+	private calcresult_Repository calcresult_Repository;
 	
 	@PostMapping("calc") //htmlのpostにつながってる
 	public String calc() {
@@ -34,8 +37,9 @@ public class CalcController {
 		if( AdResult == "Aderror") { //計算結果がエラーならエラー画面へ飛ぶ
 			return "error";
 		}
-		model.addAttribute("kotae", AdResult );//大事
+		model.addAttribute("kotae", AdResult );//htmlのkotaeから参照しAdResultへ格納
 		
+		calcresult_Repository.insertResult(AdResult);
 		
 		return "res";
 
@@ -58,6 +62,8 @@ public class CalcController {
 		}
 		model.addAttribute("kotae", SubResult );
 
+		calcresult_Repository.insertResult(SubResult);
+		
 		return "res";
 
 	}
@@ -79,6 +85,8 @@ public class CalcController {
 		}
 		model.addAttribute("kotae", MulResult);
 
+		calcresult_Repository.insertResult(MulResult);
+		
 		return "res";
 
 	}
@@ -98,6 +106,8 @@ public class CalcController {
 		}
 		model.addAttribute("kotae", DivResult);
 
+		calcresult_Repository.insertResult(DivResult);
+		
 		return "res";
 
 	}	
