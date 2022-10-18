@@ -5,11 +5,24 @@
 <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
 <!--ThymeleafをHTMLファイルで使用する為-->
 <title>web計算機</title>
+<style type="text/css">
+	button {
+		background-color: #ffc0cb;
+		padding: 10px;
+		text-align: center;
+		display: block;
+		border-color: cc0033;
+		border: 1px solid;
+
+	}
+
+</style>
 </head>
 <body>
 	<p>
-		<strong><span th:text="${message}"></span></strong> //th:textはThymeleafの属性
-	</p>
+		<strong><span th:text="${message}"></span></strong></p> 
+		<!-- th:textはThymeleafの属性 -->
+	
 	<p>数値を入力してください！</p>
 	<form method="POST" action="resAdd"><!-- resAddの送信 -->
 		<input type="text" inputmode=decimal name="numA" value=0>
@@ -54,6 +67,12 @@
 		<input type="text" inputmode=decimal name="numH" value=0>
 		
 		<input type=submit value="送信">
+	</form>
+	
+	<p></p>
+	<form method="POST" action="history" ><!-- historyへ送信 -->
+	<!-- <button>送信</button> -->
+	<button formaction="history" >計算結果ページへ移動</button>
 	</form>
 	
 </body>
