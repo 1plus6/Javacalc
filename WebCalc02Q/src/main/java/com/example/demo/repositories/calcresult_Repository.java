@@ -2,6 +2,8 @@ package com.example.demo.repositories;
 
 
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -14,8 +16,8 @@ public interface  calcresult_Repository {
 	 public void insertResult(String result);
 	  
 	  
-	  @Select("SELECT RESULT FROM CALCRESULT")
-	  public void selectResult(String result);
+	  @Select("SELECT RESULT FROM CALCRESULT")// SQL文
+	  public List <String> findall();//SQLを実行する
 }
 
 

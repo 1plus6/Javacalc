@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="CALCRESULT")
+@Table(name="CALCRESULT") //データベースに値を渡すor受け取る箱
 public class ResultEntity {
 	  
 	  @Id

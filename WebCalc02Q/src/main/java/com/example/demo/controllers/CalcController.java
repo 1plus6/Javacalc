@@ -14,6 +14,8 @@ import com.example.demo.services.CalcService;
 @Controller //司令塔 htmlとjavaの橋渡し役、画面表示にまつわる処理
 public class CalcController {
 
+	private static final Object DivResult = null;
+
 	@Autowired
 	private CalcService service;
 
@@ -107,7 +109,7 @@ public class CalcController {
 /*
  * 割り算
  */
-	@PostMapping("resDivide") //ルーティング
+	@PostMapping("resDivide") //htmlのpostにつながってる
 	public String resDivide(
 			Model model,
 			@RequestParam("numG") String NumG,
@@ -126,10 +128,16 @@ public class CalcController {
 
 	}	
 	
-	@GetMapping("result")
-	public String result() {
-		return "result";
+	@GetMapping("history")
+	public String sample(Model model) {
+	
+	    model.addAttribute("kotae", DivResult );
+	    return "history";
 	}
+//	@GetMapping("kotae")
+//	public String result() {
+//		return "kotae";
+//	}
 	//	引き算、掛け算、割り算を記載していきましょう。
 	//	ですが、割り算はちょっと特殊なので注意しましょう！
 	//	割り算の答えの出し方をよく思い出してくださいね、他の掛け算までの答え方とは別で回答パターンが複数あると思います、
