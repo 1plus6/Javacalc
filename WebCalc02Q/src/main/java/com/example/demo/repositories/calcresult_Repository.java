@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import com.example.demo.entities.ResultEntity;
+
 @Mapper
 
 public interface  calcresult_Repository {
@@ -17,7 +19,7 @@ public interface  calcresult_Repository {
 	  
 	  
 	  @Select("SELECT RESULT FROM CALCRESULT")// SQL文
-	  public List <String> findall();//SQLを実行する
+	  public List<ResultEntity> findall();//SQLを実行する
 }
 
 

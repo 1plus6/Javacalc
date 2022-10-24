@@ -8,7 +8,22 @@
 	<p>計算履歴一覧</p>
 
 	<form method="POST" action="history">
-		<b th:text="${kotae}"></b>
+
+		<table>
+			<thead>
+				<tr>
+					<th>答え</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="EntityList ,Result : ${kotae}">
+					<!--kotaeの要素がEntityListに入る th:each="要素格納用の変数 : ${リスト}" -->
+
+					<!-- <tr th:each="Result,EntityList : ${kotae}"> -->
+					<td th:text="${EntityList.Result}"></td>
+				</tr>
+			</tbody>
+		</table>
 	</form>
 </body>
 </html>

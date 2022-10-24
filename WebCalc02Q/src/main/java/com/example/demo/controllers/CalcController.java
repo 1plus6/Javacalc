@@ -1,12 +1,16 @@
 package com.example.demo.controllers;
+
+import java.util.ArrayList;
+import java.util.List;
+
 //このURLにきたら何らかの処理をしてテンプレートエンジン
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.entities.ResultEntity;
 import com.example.demo.repositories.calcresult_Repository;
 import com.example.demo.services.CalcService;
 
@@ -14,72 +18,80 @@ import com.example.demo.services.CalcService;
 @Controller //司令塔 htmlとjavaの橋渡し役、画面表示にまつわる処理
 public class CalcController {
 
-	private static final Object DivResult = null;
 
-	@Autowired
+	@Autowired //他のクラスを呼び出す
 	private CalcService service;
 
 	@Autowired
 	private calcresult_Repository calcresult_Repository;
-	
 
-	
-	@PostMapping("calc") //htmlのpostにつながってる
+
+
+	@PostMapping("calc") //htmlのhistoryにとぶ、actionにつながってる
 	public String calc() {
 		return "calc";
 
 	}
-	
+
 	@PostMapping("history")
-	public String history() {
+	public String history(
+			Model model
+			) {
+		calcresult_Repository.findall(); //findallメソッド呼び出し
+
+		List<ResultEntity> EntityList = new ArrayList<ResultEntity>(); //ResultEntityをリスト型インスタンスしてる
+
+		EntityList = calcresult_Repository.findall();
+		model.addAttribute("kotae" , EntityList); //kotaeにEntityListを代入
+
 		return "history"; // history.hmtlへ飛ぶ
-			
-	}
-	
+
+	}	
+
 	/*
 	 * 足し算
 	 */
-	
+
 	@PostMapping("resAdd") //htmlのpostにつながってる
 	public String resAdd(
-			Model model,
-			@RequestParam("numA") String NumA,
+			Model model, //引数のところでインスタンスする　変数名model
+			@RequestParam("numA") String NumA, //引数NumAにnumAが渡される
 			@RequestParam("numB") String NumB
 
-	) {
-		String AdResult = service.calculateAdd(NumA, NumB);
-		if( AdResult == "Aderror") { //計算結果がエラーならエラー画面へ飛ぶ
+			) {
+		String AdResult = service.calculateAdd(NumA, NumB); //サービスのcalclateAddのnubAとBをAdResultへ代入
+		if( AdResult == "Aderror") { //もし、AdResultとAderrorが同じになったらerrorへ飛ぶ
 			return "error";
 		}
-		model.addAttribute("kotae", AdResult );//htmlのkotaeから参照しAdResultへ格納
-		
-		calcresult_Repository.insertResult(AdResult);
-		
-		
-		return "res";
+		model.addAttribute("kotae", AdResult );//AdResultの値をhtmlのkotae変数に代入 model＝インタフェース
 
-		
+		calcresult_Repository.insertResult(AdResult); //insertResultメソッド、AdResult引数を渡してる
+
+
+		return "res"; // resへ飛ぶ
+
+
 	}
 
 	/*
 	 * 引き算
 	 */
-	
-	@PostMapping("resSubtract") //ルーティング
+
+	@PostMapping("resSubtract") //
 	public String resSubtract(
 			Model model,
 			@RequestParam("numC") String NumC,
 			@RequestParam("numD") String NumD
 
-	) {
+			) {
 		String SubResult = service.calculateSubtract(NumC, NumD);
-		if( SubResult == "Suerror") { //計算結果がエラーならエラー画面へ飛ぶ
+		if( SubResult == "Suerror") { //もし、AdResultとAderrorが同じになったらerrorへ飛ぶ
 			return "error";
 		}
 		model.addAttribute("kotae", SubResult );
 
 		calcresult_Repository.insertResult(SubResult);
-		
+
 		return "res";
 
 	}
@@ -87,57 +99,49 @@ public class CalcController {
 	/*
 	 * 掛け算
 	 */
-	
+
 	@PostMapping("resMultiply") //ルーティング
 	public String resMultiply(
 			Model model,
 			@RequestParam("numE") String NumE,
 			@RequestParam("numF") String NumF
 
-	) {
+			) {
 		String MulResult = service.calculateMultiply(NumE, NumF);
-		if( MulResult == "Muerror") { //計算結果がエラーならエラー画面へ飛ぶ
+		if( MulResult == "Muerror") { //もし、AdResultとAderrorが同じになったらerrorへ飛ぶ
 			return "error";
 		}
 		model.addAttribute("kotae", MulResult);
 
 		calcresult_Repository.insertResult(MulResult);
-		
+
 		return "res";
 
 	}
-/*
- * 割り算
- */
+	/*
+	 * 割り算
+	 */
 	@PostMapping("resDivide") //htmlのpostにつながってる
 	public String resDivide(
 			Model model,
 			@RequestParam("numG") String NumG,
 			@RequestParam("numH") String NumH
 
-	) {
+			) {
 		String DivResult = service.calculateDivide(NumG, NumH);
-		if( DivResult == "Dierror") { //計算結果がエラーならエラー画面へ飛ぶ
+		if( DivResult == "Dierror") { //もし、AdResultとAderrorが同じになったらerrorへ飛ぶ
 			return "error";
 		}
 		model.addAttribute("kotae", DivResult);
 
 		calcresult_Repository.insertResult(DivResult);
-		
+
 		return "res";
 
 	}	
-	
-	@GetMapping("history")
-	public String sample(Model model) {
-	
-	    model.addAttribute("kotae", DivResult );
-	    return "history";
-	}
-//	@GetMapping("kotae")
-//	public String result() {
-//		return "kotae";
-//	}
+
+
+	//	}
 	//	引き算、掛け算、割り算を記載していきましょう。
 	//	ですが、割り算はちょっと特殊なので注意しましょう！
 	//	割り算の答えの出し方をよく思い出してくださいね、他の掛け算までの答え方とは別で回答パターンが複数あると思います、
